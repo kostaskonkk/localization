@@ -1,3 +1,5 @@
+.gitignore
+launch/test.launch
 # Prerequisites
 *.d
 

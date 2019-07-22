@@ -1,0 +1,26 @@
+ <launch>
+
+    <node type="odometry_node" name="odom" pkg="localization" /> 
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="link_imu" args="0 0 0 0 0 0 /base_link /imu_link" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="link_laser" args="-0.1385 0 0 0 0 0 /base_link /laser" />
+
+    <!--Fusion of odometry and imu -->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_node" clear_params="true" output="screen">
+	<!--<rosparam command="load" file="$(find odometry)/config/ekf_template-test.yaml" />-->
+	<rosparam command="load" file="$(find localization)/config/ekf_twist_imu.yaml" />
+	<remap from="odometry/filtered" to="odometry/wheel_imu" />
+    </node>
+
+      <!--Fusion of output of slam with the output of odometry and imu fusion-->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_slam_node" clear_params="true" output="screen">
+	<rosparam command="load" file="$(find localization)/config/ekf_slam.yaml" />
+	<remap from="odometry/filtered" to="odometry/map" />
+    </node>
+
+    <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen">
+	<rosparam command="load" file="$(find localization)/config/hector_parameters.yaml" />
+    </node>
+
+
+</launch>
