@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
   <name>localization</name>
-  <version>1.0</version>
+  <version>1.0.0</version>
   <description>A localization package for the Delft Scaled Vehicle</description>
 
   <author email="kostaskonkk@gmail.com">Kostas Konstantinidis</author>
