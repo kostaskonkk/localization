@@ -13,7 +13,7 @@ void poseCallback(const geometry_msgs::PoseStamped& msg){
   tf::Quaternion q( 0,0,msg.pose.orientation.z,msg.pose.orientation.w);
   //q.setRPY(0, 0, msg->theta);
   transform.setRotation(q);
-  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "mocap_world", "base_link"));
+  br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "map", "base_link"));
 }
 
 int main(int argc, char** argv){

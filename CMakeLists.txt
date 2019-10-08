@@ -23,5 +23,8 @@ target_link_libraries(odometry_node ${catkin_LIBRARIES})
 add_executable(robot_localization_node src/robot_local.cpp)
 target_link_libraries(robot_localization_node ${catkin_LIBRARIES})
 
+add_executable(sim_local src/sim_local.cpp)
+target_link_libraries(sim_local ${catkin_LIBRARIES})
+
 add_executable(mocap_local src/mocap_local.cpp)
 target_link_libraries(mocap_local ${catkin_LIBRARIES})

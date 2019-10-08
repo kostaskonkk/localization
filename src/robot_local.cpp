@@ -6,7 +6,7 @@ Localization::Localization(){
 
     robot_1_pub=n.advertise<geometry_msgs::PoseStamped>("/robot_1_with_frame",10);
     robot_2_pub=n.advertise<geometry_msgs::PoseStamped>("/robot_2_with_frame",10);
-    new_msg.header.frame_id = "mocap_world";
+    new_msg.header.frame_id = "map";
     
   }
 
