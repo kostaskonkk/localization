@@ -19,7 +19,7 @@ int main(int argc, char** argv){
   //turtle_name = argv[1];
 
   ros::NodeHandle node;
-  ros::Subscriber sub = node.subscribe("mocap_pose", 10, &odomCallback);
+  ros::Subscriber sub = node.subscribe("ego_pose", 10, &odomCallback);
 
   ros::spin();
   return 0;
