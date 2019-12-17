@@ -6,11 +6,11 @@ Odometry::Odometry(){
     twist_pub=n.advertise<geometry_msgs::TwistWithCovarianceStamped>("/odometry",10);
     velocity.header.frame_id = "base_link";
     velocity.twist.covariance = {3, 0, 0, 0, 0, 0,
-				0, 3, 0, 0, 0, 0,
-				0, 0, 50, 0, 0, 0,
-				0, 0, 0, 50, 0, 0,
-				0, 0, 0, 0, 50, 0,
-				0, 0, 0, 0, 0, 50};
+				                         0, 3, 0, 0, 0, 0,
+				                         0, 0, 50, 0, 0, 0,
+				                         0, 0, 0, 50, 0, 0,
+				                         0, 0, 0, 0, 50, 0,
+				                         0, 0, 0, 0, 0, 50};
   }
 
 void Odometry::ecu_callback(const barc::ECU& ecu){
