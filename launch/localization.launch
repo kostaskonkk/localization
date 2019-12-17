@@ -1,26 +1,33 @@
  <launch>
 
+    <param name="use_sim_time" value="true" />
+
     <node type="odometry_node" name="odom" pkg="localization" /> 
 
-    <node pkg="tf2_ros" type="static_transform_publisher" name="link_imu" args="0 0 0 0 0 0 /base_link /imu_link" />
-    <node pkg="tf2_ros" type="static_transform_publisher" name="link_laser" args="-0.1385 0 0 0 0 0 /base_link /laser" />
 
+    <!--<node pkg="rosbag" type="play" name="player" required="true" output="screen" args="-r 1 -clock $(find datmo)/examples/overtakes.bag"/>-->
+    <!--<node pkg="rosbag" type="play" name="player" required="true" output="screen" args="-r 1 -clock /home/kostas/experiments/dsv/maybe.bag"/>-->
+    <node pkg="rosbag" type="play" name="player" required="true" output="screen" args="-r 1 --clock /home/kostas/Dropbox/experiments/7/funny.bag"/>
+    <node pkg="rosbag" type="record" name="recorder" required="true" output="screen" args="-O /home/kostas/results/local.bag /mocap_pose /odometry/wheel_imu /poseupdate /odometry/map"/>
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="link_imu" args="0 0 0 0 0 0 /base_link /imu_link" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="link_laser" args="-0.1385 0 0 0 0 0 /base_link /laser" />
+  <node type="rviz" name="rviz" pkg="rviz" args="-d $(find localization)/config/localization.rviz" />
     <!--Fusion of odometry and imu -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_node" clear_params="true" output="screen">
-	<!--<rosparam command="load" file="$(find odometry)/config/ekf_template-test.yaml" />-->
 	<rosparam command="load" file="$(find localization)/config/ekf_twist_imu.yaml" />
 	<remap from="odometry/filtered" to="odometry/wheel_imu" />
     </node>
 
-      <!--Fusion of output of slam with the output of odometry and imu fusion-->
-    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_slam_node" clear_params="true" output="screen">
-	<rosparam command="load" file="$(find localization)/config/ekf_slam.yaml" />
-	<remap from="odometry/filtered" to="odometry/map" />
-    </node>
 
     <node pkg="hector_mapping" type="hector_mapping" name="hector_mapping" output="screen">
 	<rosparam command="load" file="$(find localization)/config/hector_parameters.yaml" />
     </node>
 
+      <!--[>Fusion of output of slam with the output of odometry and imu fusion<]-->
+    <node pkg="robot_localization" type="ekf_localization_node" name="ekf_slam_node" clear_params="true" output="screen">
+	<rosparam command="load" file="$(find localization)/config/ekf_slam.yaml" />
+	<remap from="odometry/filtered" to="odometry/map" />
+    </node>
 
 </launch>
